@@ -106,7 +106,7 @@ function drawEverything() {
     //!!!black field
     colorRect(0, 0, canvas.width, canvas.height, "black");
 
-    img.src = "aliceGH_st01.png";
+    img.src = "F:\NodeJS\minimalizm\aliceGH_st01.png";
     //ctx.drawImage(img, 365, 40, 500, 350);
 
     //win screen to continue
