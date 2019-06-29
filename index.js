@@ -48,13 +48,13 @@ function handleInput() {
 
     if(input.isDown("RIGHT") || input.isDown("d")) {
         if(cube.X != 1280 - cube.W) {
-            cube.X += 2;
+            cube.X += 3;
         }
     }
 
     if(input.isDown("LEFT") || input.isDown("a")) {
         if(cube.X != 0) {
-            cube.X -= 2;
+            cube.X -= 3;
         }
         
     }
@@ -74,15 +74,18 @@ window.onload = function() {
 
     canvas.addEventListener("mousedown", mouseClickToContinue);
 
-    //canvas.addEventListener("keypress", doKeyDown, true);
-    if(cube.Y == EARTH_ALTITUDE - cube.H) {
-        requestAnimationFrame(function measure() {
-        cube.X += cubeSpeedX;
-            if(times++ < 100){
-                requestAnimationFrame(measure);
-            }
-        })
-    }
+    // if(cube.Y == EARTH_ALTITUDE - cube.H) {
+    //     requestAnimationFrame(function measure() {
+    //     cube.X += cubeSpeedX;
+    //         if(times++ < 100){
+    //             requestAnimationFrame(measure);
+    //         }
+    //     })
+    // }
+
+    // Обработка столкновений
+    
+
 }
 
 function mouseClickToContinue(evt) {
@@ -99,6 +102,16 @@ function moveEverything() {
         cube.Y = cube.Y + cubeSpeedY;
         gravity = true;
         console.log(gravity);
+    }
+
+    // пробное столкновение
+    if(cube.X > 85 - cube.W) {
+        // cube.Y = cubeY + cubeSpeedY;
+        cube.X = cube.X - cubeSpeedX;
+        if(cube.Y == (EARTH_ALTITUDE - 35 - cube.H)) {
+            cube.Y = EARTH_ALTITUDE - 35 - cube.H - 25;
+            cube.X = cube.X + cubeSpeedX;
+        }
     }
 }
 
