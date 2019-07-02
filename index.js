@@ -16,6 +16,7 @@ const PADDLE_HEIGHT = 100;
 const PADDLE_THICKNESS = 10;
 
 var img = new Image();
+var tamamoImage = new Image();
 
 var gameTime = 0;
 var start = Date.now();
@@ -30,6 +31,7 @@ var cube = {
     W: 60,
     H: 30
 }
+
 
 function cubeMove() {
     var internalTimer = 0;
@@ -88,6 +90,17 @@ window.onload = function() {
 
 }
 
+function sprite (options) {
+    var that = {};
+					
+    that.ctx = options.ctx;
+    that.width = options.width;
+    that.height = options.height;
+    that.image = options.image;
+
+    return that;
+}
+
 function mouseClickToContinue(evt) {
     if(showingWinScreen) {
         leftPlayerScore = 0;
@@ -119,17 +132,20 @@ function drawEverything() {
     //!!!black field
     colorRect(0, 0, canvas.width, canvas.height, "black");
 
-    img.src = "F:\NodeJS\minimalizm\aliceGH_st01.png";
-    //ctx.drawImage(img, 365, 40, 500, 350);
+    img.src = 'F:/NodeJS/canvas-minimalizm/images/aliceGH_st01.png';
+    ctx.drawImage(img, 365, 40, 500, 350);
+
+    tamamoImage.src = 'F:/NodeJS/canvas-minimalizm/images/tamamoE.png';
+    //ctx.drawImage(tamamoImage, 365, 40, 386, 96);
 
     //win screen to continue
     if(showingWinScreen) {
         ctx.fillStyle = "red";
         ctx.font = "28px consolas";
         if(rightPlayerScore >= WINNING_SCORE) {
-                ctx.fillText("Right player win!", 480, 600);
+            ctx.fillText("Right player win!", 480, 600);
         } else if(leftPlayerScore >= WINNING_SCORE) {
-                ctx.fillText("Left player win!", 480, 600);
+            ctx.fillText("Left player win!", 480, 600);
         }
 
         ctx.fillStyle = "white";
