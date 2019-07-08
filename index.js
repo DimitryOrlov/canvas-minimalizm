@@ -17,6 +17,13 @@ const PADDLE_THICKNESS = 10;
 
 var img = new Image();
 var tamamoImage = new Image();
+tamamoImage.src = 'F:/NodeJS/canvas-minimalizm/images/tamamoE.png';
+var tamamoImageProperty = {
+    width: 96,
+    height: 96,
+    frames: 3,
+    currentFrame: 0
+}
 
 var gameTime = 0;
 var start = Date.now();
@@ -33,12 +40,34 @@ var cube = {
 }
 
 
+var requestAnimationFrame = window.requestAnimationFrame || 
+                            window.mozRequestAnimationFrame ||
+                            window.webkitRequestAnimationFrame || 
+                            window.msRequestAnimationFrame;
+window.requestAnimationFrame = requestAnimationFrame;
+
 function cubeMove() {
     var internalTimer = 0;
     cube.Y = cube.Y - 2;
     if(internalTimer++ < 200) {
         requestAnimationFrame(cubeMove);
     }
+}
+
+function drawSprite() {
+    //setTimeout(function() {
+        requestAnimationFrame(drawSprite);
+        //ctx.clearRect(365, 40, 96, 96);
+        ctx.drawImage(tamamoImage, 365, 40, tamamoImageProperty.width * tamamoImageProperty.currentFrame, tamamoImageProperty.height, 365, 40, 
+        tamamoImageProperty.width, tamamoImageProperty.height);
+
+        if (tamamoImageProperty.currentFrame == tamamoImageProperty.frames) {
+            tamamoImageProperty.currentFrame = 0;
+        } else {
+            tamamoImageProperty.currentFrame++;
+        }
+    //}, 1000);
+    console.log("");
 }
 
 function handleInput() {
@@ -62,6 +91,7 @@ function handleInput() {
     }
 }
 
+// ------------------- MAIN ---------------------
 window.onload = function() {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext('2d');
@@ -75,30 +105,8 @@ window.onload = function() {
     }, 1000/FPS);
 
     canvas.addEventListener("mousedown", mouseClickToContinue);
-
-    // if(cube.Y == EARTH_ALTITUDE - cube.H) {
-    //     requestAnimationFrame(function measure() {
-    //     cube.X += cubeSpeedX;
-    //         if(times++ < 100){
-    //             requestAnimationFrame(measure);
-    //         }
-    //     })
-    // }
-
+    drawSprite();
     // Обработка столкновений
-    
-
-}
-
-function sprite (options) {
-    var that = {};
-					
-    that.ctx = options.ctx;
-    that.width = options.width;
-    that.height = options.height;
-    that.image = options.image;
-
-    return that;
 }
 
 function mouseClickToContinue(evt) {
@@ -132,10 +140,11 @@ function drawEverything() {
     //!!!black field
     colorRect(0, 0, canvas.width, canvas.height, "black");
 
+    // images
     img.src = 'F:/NodeJS/canvas-minimalizm/images/aliceGH_st01.png';
-    ctx.drawImage(img, 365, 40, 500, 350);
+    //ctx.drawImage(img, 365, 40, 500, 350);
 
-    tamamoImage.src = 'F:/NodeJS/canvas-minimalizm/images/tamamoE.png';
+    //tamamoImage.src = 'F:/NodeJS/canvas-minimalizm/images/tamamoE.png';
     //ctx.drawImage(tamamoImage, 365, 40, 386, 96);
 
     //win screen to continue
