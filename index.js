@@ -17,6 +17,7 @@ const PADDLE_THICKNESS = 10;
 
 var img = new Image();
 var tamamoImage = new Image();
+<<<<<<< Updated upstream
 tamamoImage.src = 'F:/NodeJS/canvas-minimalizm/images/tamamoE.png';
 var tamamoImageProperty = {
     width: 96,
@@ -24,6 +25,12 @@ var tamamoImageProperty = {
     frames: 3,
     currentFrame: 0
 }
+=======
+//tamamoImage.src = 'F:/NodeJS/canvas-minimalizm/images/tamamoE.png';
+tamamoImage.src = 'http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/downloads/sprite-animation-demo/images/coin-sprite-animation.png';
+var widthTamamo = 0;
+var tick_count = 0;
+>>>>>>> Stashed changes
 
 var gameTime = 0;
 var start = Date.now();
@@ -91,7 +98,45 @@ function handleInput() {
     }
 }
 
+<<<<<<< Updated upstream
 // ------------------- MAIN ---------------------
+=======
+// событие загрузки и реквест анимации
+tamamoImage.onload = function() {
+    //init func
+    //tick();
+    //reqAnim(init)
+};
+
+// отрисовка спрайта
+function tick() {
+    if(tick_count > 24){
+        drawSprite();
+        tick_count = 0;
+    }
+    
+    tick_count++;
+    //tick();
+    requestAnimationFrame(tick);
+}
+
+function drawSprite() {
+    //ctx.clearRect(0, 0, 100, 100);
+    //ctx.colorRect(0, 0, 100, 100, "black");
+    if(widthTamamo === 900){
+        widthTamamo = 0;
+    } else {
+        widthTamamo = widthTamamo + 100;
+    }
+
+    //ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+    // монета
+    ctx.drawImage(tamamoImage, widthTamamo, 0, 100, 100, 0, 0, 100, 100);
+    // kitsune
+    //ctx.drawImage(tamamoImage, widthTamamo, 0, 96, 96, 0, 0, 96, 96);
+}
+
+>>>>>>> Stashed changes
 window.onload = function() {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext('2d');
@@ -102,11 +147,29 @@ window.onload = function() {
         moveEverything();
         drawEverything();
         handleInput();
+        
     }, 1000/FPS);
-
+    
+    tick();
+    requestAnimationFrame(tick);
     canvas.addEventListener("mousedown", mouseClickToContinue);
     drawSprite();
     // Обработка столкновений
+<<<<<<< Updated upstream
+=======
+    
+}
+
+function sprite (options) {
+    var that = {};
+					
+    that.ctx = options.ctx;
+    that.width = options.width;
+    that.height = options.height;
+    that.image = options.image;
+
+    return that;
+>>>>>>> Stashed changes
 }
 
 function mouseClickToContinue(evt) {
@@ -146,6 +209,7 @@ function drawEverything() {
 
     //tamamoImage.src = 'F:/NodeJS/canvas-minimalizm/images/tamamoE.png';
     //ctx.drawImage(tamamoImage, 365, 40, 386, 96);
+    //tick();
 
     //win screen to continue
     if(showingWinScreen) {
