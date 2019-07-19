@@ -37,6 +37,7 @@ var cube = {
 }
 
 var timer = 0;
+var intermediateTimer = 0;
 // function cubeMove() {
 //     var internalTimer = 0;
 //     cube.Y = cube.Y - 2;
@@ -79,7 +80,6 @@ function tick() {
         drawSprite();
         tick_count = 0;
     }
-    
     tick_count++;
     //tick();
     requestAnimationFrame(tick);
@@ -111,11 +111,14 @@ window.onload = function() {
         moveEverything();
         drawEverything();
         handleInput();
-        var intermediateTimer = Math.round(timer / 100);
+        //intermediateTimer = Math.round(timer / 100);
         timer++;
-        console.log(timer / 100);
-        console.log(intermediateTimer);
+        //console.log(timer / 100);
+        //console.log(intermediateTimer);
+        drawSprite();
     }, 1000/FPS);
+
+    //setInterval(drawSprite, 1000 / 60); // Работает нормально, но слишком быстро. Чтобы замедлить нужно что-то придумать с синхрон. и очищением области
     
     //tick();
     //requestAnimationFrame(tick);
