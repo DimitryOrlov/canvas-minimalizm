@@ -17,6 +17,10 @@ const PADDLE_THICKNESS = 10;
 
 var img = new Image();
 var tamamoImage = new Image();
+//tamamoImage.src = 'F:/NodeJS/canvas-minimalizm/images/tamamoE.png';
+tamamoImage.src = 'http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/downloads/sprite-animation-demo/images/coin-sprite-animation.png';
+var widthTamamo = 0;
+var tick_count = 0;
 
 var gameTime = 0;
 var start = Date.now();
@@ -31,7 +35,6 @@ var cube = {
     W: 60,
     H: 30
 }
-
 
 function cubeMove() {
     var internalTimer = 0;
@@ -62,6 +65,41 @@ function handleInput() {
     }
 }
 
+// событие загрузки и реквест анимации
+tamamoImage.onload = function() {
+    //init func
+    //tick();
+    //reqAnim(init)
+};
+
+// отрисовка спрайта
+function tick() {
+    if(tick_count > 24){
+        drawSprite();
+        tick_count = 0;
+    }
+    
+    tick_count++;
+    //tick();
+    requestAnimationFrame(tick);
+}
+
+function drawSprite() {
+    //ctx.clearRect(0, 0, 100, 100);
+    //ctx.colorRect(0, 0, 100, 100, "black");
+    if(widthTamamo === 900){
+        widthTamamo = 0;
+    } else {
+        widthTamamo = widthTamamo + 100;
+    }
+
+    //ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+    // монета
+    ctx.drawImage(tamamoImage, widthTamamo, 0, 100, 100, 0, 0, 100, 100);
+    // kitsune
+    //ctx.drawImage(tamamoImage, widthTamamo, 0, 96, 96, 0, 0, 96, 96);
+}
+
 window.onload = function() {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext('2d');
@@ -72,8 +110,11 @@ window.onload = function() {
         moveEverything();
         drawEverything();
         handleInput();
+        
     }, 1000/FPS);
-
+    
+    tick();
+    requestAnimationFrame(tick);
     canvas.addEventListener("mousedown", mouseClickToContinue);
 
     // if(cube.Y == EARTH_ALTITUDE - cube.H) {
@@ -87,7 +128,6 @@ window.onload = function() {
 
     // Обработка столкновений
     
-
 }
 
 function sprite (options) {
@@ -121,10 +161,6 @@ function moveEverything() {
     if(cube.X > 85 - cube.W) {
         // cube.Y = cubeY + cubeSpeedY;
         cube.X = cube.X - cubeSpeedX;
-        if(cube.Y == (EARTH_ALTITUDE - 35 - cube.H)) {
-            cube.Y = EARTH_ALTITUDE - 35 - cube.H - 25;
-            cube.X = cube.X + cubeSpeedX;
-        }
     }
 }
 
@@ -133,10 +169,11 @@ function drawEverything() {
     colorRect(0, 0, canvas.width, canvas.height, "black");
 
     img.src = 'F:/NodeJS/canvas-minimalizm/images/aliceGH_st01.png';
-    ctx.drawImage(img, 365, 40, 500, 350);
+    //ctx.drawImage(img, 365, 40, 500, 350);
 
-    tamamoImage.src = 'F:/NodeJS/canvas-minimalizm/images/tamamoE.png';
+    //tamamoImage.src = 'F:/NodeJS/canvas-minimalizm/images/tamamoE.png';
     //ctx.drawImage(tamamoImage, 365, 40, 386, 96);
+    //tick();
 
     //win screen to continue
     if(showingWinScreen) {
