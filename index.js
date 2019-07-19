@@ -36,13 +36,14 @@ var cube = {
     H: 30
 }
 
-function cubeMove() {
-    var internalTimer = 0;
-    cube.Y = cube.Y - 2;
-    if(internalTimer++ < 200) {
-        requestAnimationFrame(cubeMove);
-    }
-}
+var timer = 0;
+// function cubeMove() {
+//     var internalTimer = 0;
+//     cube.Y = cube.Y - 2;
+//     if(internalTimer++ < 200) {
+//         requestAnimationFrame(cubeMove);
+//     }
+// }
 
 function handleInput() {
     if(input.isDown("UP") || input.isDown("w")) {
@@ -110,11 +111,14 @@ window.onload = function() {
         moveEverything();
         drawEverything();
         handleInput();
-        
+        var intermediateTimer = Math.round(timer / 100);
+        timer++;
+        console.log(timer / 100);
+        console.log(intermediateTimer);
     }, 1000/FPS);
     
-    tick();
-    requestAnimationFrame(tick);
+    //tick();
+    //requestAnimationFrame(tick);
     canvas.addEventListener("mousedown", mouseClickToContinue);
 
     // if(cube.Y == EARTH_ALTITUDE - cube.H) {
@@ -154,7 +158,7 @@ function moveEverything() {
     if(cube.Y < canvas.height - 100 - cube.H) {
         cube.Y = cube.Y + cubeSpeedY;
         gravity = true;
-        console.log(gravity);
+        //console.log(gravity);
     }
 
     // пробное столкновение
@@ -165,6 +169,7 @@ function moveEverything() {
 }
 
 function drawEverything() {
+    let drawCount = 0;
     //!!!black field
     colorRect(0, 0, canvas.width, canvas.height, "black");
 
@@ -218,7 +223,10 @@ function drawEverything() {
         startText = "Gravity is now FALSE";
         ctx.fillText(startText, (canvas.width / 2) - 150, 20);
     }
-
+    // if((drawCount % 60) === 0) {
+    //     console.log("Прошло 60 кадров и 1 секунда");
+    // }
+    // drawCount++;
 }
 
 // круг с центром в точке (x,y) радиусом r начиная с угла startAngle в направлении по часовой(или против) antiClockWise
