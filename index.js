@@ -16,10 +16,10 @@ const PADDLE_HEIGHT = 100;
 const PADDLE_THICKNESS = 10;
 
 var img = new Image();
-var tamamoImage = new Image();
+var coinImage = new Image();
 //tamamoImage.src = 'F:/NodeJS/canvas-minimalizm/images/tamamoE.png';
-tamamoImage.src = 'http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/downloads/sprite-animation-demo/images/coin-sprite-animation.png';
-var widthTamamo = 0;
+coinImage.src = 'http://www.williammalone.com/articles/create-html5-canvas-javascript-sprite-animation/downloads/sprite-animation-demo/images/coin-sprite-animation.png';
+var coinWidth = 0;
 var tick_count = 0;
 
 var gameTime = 0;
@@ -35,6 +35,9 @@ var cube = {
     W: 60,
     H: 30
 }
+
+var mouseX,
+    mouseY;
 
 var timer = 0;
 var intermediateTimer = 0;
@@ -67,8 +70,23 @@ function handleInput() {
     }
 }
 
+function clickCoin() {
+    canvas.addEventListener("click", function(e) {
+        if((mouseX > 0 && mouseX < 100) && (mouseY > 0 && mouseY < 100)) {
+            coinImage.src = "";
+        }
+    });
+}
+
+function mouseListen() {
+    canvas.addEventListener('mouseup', function (e) {
+        mouseX = e.pageX - e.target.offsetLeft,
+        mouseY = e.pageY - e.target.offsetTop;
+    });
+}
+
 // событие загрузки и реквест анимации
-tamamoImage.onload = function() {
+coinImage.onload = function() {
     //init func
     //tick();
     //reqAnim(init)
@@ -88,15 +106,15 @@ function tick() {
 function drawSprite() {
     //ctx.clearRect(0, 0, 100, 100);
     //ctx.colorRect(0, 0, 100, 100, "black");
-    if(widthTamamo === 900){
-        widthTamamo = 0;
+    if(coinWidth === 900){
+        coinWidth = 0;
     } else {
-        widthTamamo = widthTamamo + 100;
+        coinWidth = coinWidth + 100;
     }
 
     //ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
     // монета
-    ctx.drawImage(tamamoImage, widthTamamo, 0, 100, 100, 0, 0, 100, 100);
+    ctx.drawImage(coinImage, coinWidth, 0, 100, 100, 0, 0, 100, 100);
     // kitsune
     //ctx.drawImage(tamamoImage, widthTamamo, 0, 96, 96, 0, 0, 96, 96);
 }
@@ -116,6 +134,8 @@ window.onload = function() {
         //console.log(timer / 100);
         //console.log(intermediateTimer);
         drawSprite();
+        mouseListen();
+        clickCoin();
     }, 1000/FPS);
 
     //setInterval(drawSprite, 1000 / 60); // Работает нормально, но слишком быстро. Чтобы замедлить нужно что-то придумать с синхрон. и очищением области
