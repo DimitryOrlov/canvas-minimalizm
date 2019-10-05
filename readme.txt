@@ -1,0 +1,1 @@
+THis is test readme for using git through the console on VS code/

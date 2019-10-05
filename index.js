@@ -254,8 +254,59 @@ function drawEverything() {
     //!!!obstacles
     ctx.fillStyle = "white";
     ctx.strokeStyle = "blue";
-    ctx.fillRect(85, EARTH_ALTITUDE - 35, 15, 35);
-    ctx.strokeRect(85, EARTH_ALTITUDE - 35, 15, 35);
+
+    //ctx.fillRect(100, 0, 200, 350);   //for the best image
+    ctx.strokeRect(100, 0, 200, 350);
+
+    ctx.beginPath();
+    ctx.moveTo(100, EARTH_ALTITUDE);
+    ctx.lineTo(100, EARTH_ALTITUDE - 145);
+    ctx.lineTo(150, EARTH_ALTITUDE - 145);
+    ctx.lineTo(150, EARTH_ALTITUDE - 90);
+    ctx.lineTo(300, EARTH_ALTITUDE - 90);
+    ctx.lineTo(300, EARTH_ALTITUDE);
+    ctx.moveTo(400, EARTH_ALTITUDE);
+    ctx.lineTo(400, EARTH_ALTITUDE - 90);
+    ctx.lineTo(625, EARTH_ALTITUDE - 90);
+    ctx.lineTo(625, EARTH_ALTITUDE - 145);
+    ctx.lineTo(850, EARTH_ALTITUDE - 145);
+    ctx.lineTo(850, EARTH_ALTITUDE - 220);
+    ctx.lineTo(canvas.width, EARTH_ALTITUDE - 220);
+    ctx.stroke();
+    //ctx.fill();   //for the best image
+    ctx.closePath();
+
+    ctx.beginPath();
+    ctx.moveTo(370, 0);
+    ctx.lineTo(370, 350);
+    ctx.lineTo(550, 350);
+    ctx.lineTo(550, 0);
+    ctx.moveTo(625, 0)
+    ctx.lineTo(625, 250);
+    ctx.lineTo(820, 250);
+    ctx.lineTo(820, 0);
+    ctx.moveTo(870, 0);
+    ctx.lineTo(870, 150);
+    ctx.lineTo(canvas.width, 150);
+    ctx.stroke();
+    //ctx.fill();   //for the best image
+    ctx.closePath();
+
+    //!!!door
+    ctx.setLineDash([]);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "rgb(87, 42, 7)";
+    ctx.strokeRect(1150, EARTH_ALTITUDE - 220 - 50, 20, 50);
+    ctx.fillStyle = "rgba(57, 236, 238, 0.7)";
+    ctx.fillRect(1150, EARTH_ALTITUDE - 220 - 50, 20, 50);
+    ctx.beginPath();
+    ctx.arc(1163, EARTH_ALTITUDE - 247, 2, 0, 2 * Math.PI);
+    ctx.strokeStyle = "rgb(87, 42, 7)";
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.fillStyle = "rgb(18, 34, 208)";
+    ctx.fill();
+    ctx.closePath();
 
     //!!!cube
     ctx.setLineDash([2]);
