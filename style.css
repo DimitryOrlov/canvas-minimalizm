@@ -1,14 +1,40 @@
+#start-menu {
+    background-color: rgb(27, 26, 26);
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    font-family: 'Roboto', 'sans-serif';
+}
+
+#start-menu button{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: auto;
+    padding: 2vw 5vw;
+    font-size: 3vw;
+    border: solid 0.3v#fff;
+    border-radius: 30px;
+    transition: opacity 1s;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+}
+
+#start-menu button:hover { background: rgba(255,255,255,.2); color: blanchedalmond;}
+#start-menu button:active { background: rgb(194, 194, 194); }
+
 canvas {
     display: block;
     margin: auto;
-
     position: absolute;
 }
 
 #game-over {
     margin: auto;
-    width: 1280px;
-    height: 720px;
     position: absolute;
     top: 0;
     left: 0;
@@ -16,4 +42,65 @@ canvas {
     bottom: 0;
     z-index: 1;
     display: none;
+    background-color: rgb(27, 26, 26);
 }
+
+h2 {
+    margin: 0 auto 0 auto;
+    text-align: center;
+    font-family: 'consolas', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: blanchedalmond;
+    font-size: 3em;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) 
+}
+
+#game-over button {
+    font-size: 1vw;
+    width: 8.750em;
+    height: 4.063em;
+    line-height: normal;
+}
+
+#game-over #start{
+    display: inline-block;
+    color: rgb(35, 69, 107);
+    font-weight: 700;
+    text-decoration: none;
+    user-select: none;
+    padding: .5em 2em;
+    outline: none;
+    border: 1.8px solid;
+    border-radius: 12px;
+    transition: 0.2s;
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+}
+
+#game-over #replay {
+    display: inline-block;
+    color: rgb(212, 182, 121);
+    font-weight: 700;
+    text-decoration: none;
+    user-select: none;
+    padding: .5em 2em;
+    outline: none;
+    border: 1.8px solid;
+    border-radius: 12px;
+    transition: 0.2s;
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+}
+
+
+#game-over button:hover { background: rgba(255,255,255,.2); color: blanchedalmond;}
+#game-over button:active { background: white; }

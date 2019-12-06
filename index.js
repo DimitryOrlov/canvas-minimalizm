@@ -9,8 +9,6 @@ var cubeSpeedX = 3;
 var cubeSpeedY = 5;
 
 var scoreTextStyle = "white";
-var showingWinScreen = false;
-const WINNING_SCORE = 2;
 
 const EARTH_ALTITUDE = 720 - 100;
 const PADDLE_HEIGHT = 100;
@@ -77,8 +75,6 @@ function clickCoin() {
     });
 }
 
-
-
 function mouseListen() {
     canvas.addEventListener('mouseup', function (e) {
         mouseX = e.pageX - e.target.offsetLeft,
@@ -118,23 +114,9 @@ function drawSprite() {
 window.onload = function() {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext('2d');
-    canvas.width = 1280;
+    canvas.width = 0;
     canvas.height = 720;
     
-    // setInterval(function() {
-    //     moveEverything();
-    //     drawEverything();
-    //     handleInput();
-    //     //intermediateTimer = Math.round(timer / 100);
-    //     timer++;
-    //     //console.log(timer / 100);
-    //     //console.log(intermediateTimer);
-    //     drawSprite();
-    //     mouseListen();
-    //     clickCoin();
-    // }, 1000/FPS);
-
-
     // Более совершенный подход в отображении сцены игры.
     function main() {
         // получаем дату в виде миллисекунд
@@ -160,16 +142,15 @@ window.onload = function() {
     
 }
 
-function init() {
+// function init() {
+//     document.getElementById("replay").addEventListener("click", function() {
+//         reset();
+//     });
 
-    document.getElementById("replay").addEventListener("click", function() {
-        reset();
-    });
-
-    reset();
-    lastTime = Date.now();
-    //main();
-}
+//     reset();
+//     lastTime = Date.now();
+//     //main();
+// }
 
 function gg() {
     if(isGameOver == true){
@@ -195,13 +176,31 @@ function moveEverything() {
         // cube.Y = cubeY + cubeSpeedY;
         cube.X = cube.X - cubeSpeedX;
     }
+    
+    // startMenu
+    document.getElementById("start-button").onclick = function() {
+        startGame();
+    }
+
+    // endMenu
+    document.getElementById("start").onclick = "document.location.reload(true)";
 
     document.getElementById("replay").onclick = function() {
         reset();
     }
-    // if(document.getElementById("replay").clicked = true) {
+    
+    // if(document.getElementById("start-button").clicked = true) {
     //     reset();
     // }
+}
+
+function startGame() {
+    document.getElementById("start-menu").style.display = "none";
+    document.getElementById("start-menu").style.zIndex = "1";
+    canvas.width = 1280;
+    isGameOver = false;
+    gameTime = 0;
+    inter = false;
 }
 
 function gameOver() {
@@ -231,22 +230,6 @@ function drawEverything() {
     //tamamoImage.src = 'F:/NodeJS/canvas-minimalizm/images/tamamoE.png';
     //ctx.drawImage(tamamoImage, 365, 40, 386, 96);
     //tick();
-
-    //win screen to continue
-    if(showingWinScreen) {
-        ctx.fillStyle = "red";
-        ctx.font = "28px consolas";
-        if(rightPlayerScore >= WINNING_SCORE) {
-            ctx.fillText("Right player win!", 480, 600);
-        } else if(leftPlayerScore >= WINNING_SCORE) {
-            ctx.fillText("Left player win!", 480, 600);
-        }
-
-        ctx.fillStyle = "white";
-        ctx.font = "48px consolas";
-        ctx.fillText("Click to continue", 150, 150);
-        return;
-    }
 
     //!!!earth
     colorRect(0, EARTH_ALTITUDE, canvas.width, 25, "gray");
@@ -317,15 +300,15 @@ function drawEverything() {
     ctx.strokeRect(cube.X, cube.Y, cube.W, cube.H);
     ctx.strokeStyle = scoreTextStyle;
 
-    if(gravity) {
-        ctx.font = "22px consolas";
-        startText = "Gravity is now TRUE";
-        ctx.fillText(startText, (canvas.width / 2) - 150, 20);
-    } else {
-        ctx.font = "22px consolas";
-        startText = "Gravity is now FALSE";
-        ctx.fillText(startText, (canvas.width / 2) - 150, 20);
-    }
+    // if(gravity) {
+    //     ctx.font = "22px consolas";
+    //     startText = "Gravity is now TRUE";
+    //     ctx.fillText(startText, (canvas.width / 2) - 150, 20);
+    // } else {
+    //     ctx.font = "22px consolas";
+    //     startText = "Gravity is now FALSE";
+    //     ctx.fillText(startText, (canvas.width / 2) - 150, 20);
+    // }
 }
 
 // круг с центром в точке (x,y) радиусом r начиная с угла startAngle в направлении по часовой(или против) antiClockWise
