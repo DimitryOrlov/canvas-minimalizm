@@ -5,8 +5,8 @@ var startText = "PLAY";
 var victorytText = "Completed";
 var loseText = "You died D:";
 
-var cubeSpeedX = 3;
-var cubeSpeedY = 5;
+var dX = 3;
+var dY = 5;
 
 var scoreTextStyle = "white";
 
@@ -37,33 +37,149 @@ var cube = {
     W: 60,
     H: 30
 }
+var cubePrevious = {
+    X: 0,
+    Y: 500,
+    W: 60,
+    H: 30
+}
 
 var mouseX,
     mouseY;
+
+var brickRowCount = 1;
+var brickColumnCount = 1;
+var brickWidth = 375;
+var brickHeight = 60;
+var brickPadding = 75;
+var brickOffsetTop = 60;
+var brickOffsetLeft = 60;
+var bricks = [];
+for(var r = 0; r < brickRowCount; r++) {
+    bricks[r] = [];
+    for(var c = 0; c < brickColumnCount; c++) {
+        bricks[r][c] = { x: 0, y: 0 };
+    }
+}
 
 var timer = 0;
 var intermediateTimer = 0;
 var lastTime;
 //-------------------------------------------------- LOOP START -----------------------------------------------------//
+
+window.onload = function() {
+    canvas = document.getElementById("canvas");
+    ctx = canvas.getContext('2d');
+    canvas.width = 0;
+    canvas.height = 720;
+    
+    // Более совершенный подход в отображении сцены игры.
+    function main() {
+        // получаем дату в виде миллисекунд
+        var now = Date.now();
+        // разница между текущим временем и временем последнего обновления(изначально lasttime = 0, делим на 1000 чтобы получить секунды)
+        var dt = (now - lastTime) / 1000.0;
+        
+        // обновляем и отображаем сцены
+        update(dt);
+        moveEverything();
+        drawEverything();
+        drawBricks();
+        handleInput();
+        drawSprite();
+        clickCoin();
+        mouseListen();
+        gg();
+        lastTime = now;
+        // постановка в очередь следующего цикла
+        requestAnimationFrame(main);
+    };
+
+    main();
+    
+}
+
+//------------------------------------------------ MOUSE EVENTS ----------------------------------------------------//
+
+// startMenu
+document.getElementById("start-button").onclick = function() {
+    startGame();
+}
+
+// endMenu
+//document.getElementById("start").onclick = "/*cделать ссылку на нач. страницу*/";
+
+document.getElementById("replay").onclick = function() {
+    reset();
+}
+    
+// if(document.getElementById("start-button").clicked = true) {
+//     reset();
+// }
+
+//------------------------------------------------ GAME LOGIC -----------------------------------------------------//
+
 function handleInput() {
     if(input.isDown("UP") || input.isDown("w")) {
-        if(cube.Y != 0) {
-            cube.Y -= 10;
+        if(cube.X > 100 && cube.X < 100 + brickWidth && cube.Y > 200 && cube.Y < 200 + brickHeight) {
+            cubePrevious.Y = cube.Y;
+            cube.Y += 5;
+        } else {
+            cubePrevious.Y = cube.Y;
+            cube.Y -= 5;
         }
+        // } else if(cube.Y != 0) {
+        //     cubePrevious.Y = cube.Y;
+        //     cube.Y -= 5;
+        // }
+    }
+
+    if(input.isDown("DOWN") || input.isDown("s")) {
+        // if(cube.Y != EARTH_ALTITUDE - cube.H) {
+        //     cubePrevious.Y = cube.Y;
+        //     cube.Y += 5;
+        // }
+        cubePrevious.Y = cube.Y;
+        cube.Y += 5;
     }
 
     if(input.isDown("RIGHT") || input.isDown("d")) {
-        if(cube.X != 1280 - cube.W) {
-            cube.X += 3;
-        }
+        cubePrevious.X = cube.X;
+        cube.X += 5;
     }
 
     if(input.isDown("LEFT") || input.isDown("a")) {
-        if(cube.X != 0) {
-            cube.X -= 3;
-        }
-        
+        // if(cube.X != 0) {
+        //     cube.X -= 12;
+        // }
+        cubePrevious.X = cube.X;
+        cube.X -= 5;
+    }  
+    checkPlayerBounds();
+
+}
+
+function checkPlayerBounds() {
+    if(cube.X < 0) {
+        cube.X = 0;
+    } else if(cube.X > canvas.width - cube.W) {
+        cube.X = canvas.width - cube.W;
+    } else if(cube.Y < 0){
+        cube.Y = 0;
+    } else if(cube.Y > EARTH_ALTITUDE - cube.H) {
+        cube.Y = EARTH_ALTITUDE - cube.H;
     }
+}
+
+function collisionDetection() {
+    for(var r = 0; r < brickRowCount; r++) {
+        for(var c=0; c < brickColumnCount; c++) {
+            var b = bricks[r][c];
+            if(cube.X > b.x && cube.X < b.x+brickWidth && cube.Y > b.y && cube.Y < b.y+brickHeight) {
+                cube.X -= 5;
+            }
+        }
+    }    
 }
 
 function clickCoin() {
@@ -109,39 +225,6 @@ function drawSprite() {
     //ctx.drawImage(tamamoImage, widthTamamo, 0, 96, 96, 0, 0, 96, 96);
 }
 
-//------------------------------------------------ GAME LOGIC -----------------------------------------------------//
-
-window.onload = function() {
-    canvas = document.getElementById("canvas");
-    ctx = canvas.getContext('2d');
-    canvas.width = 0;
-    canvas.height = 720;
-    
-    // Более совершенный подход в отображении сцены игры.
-    function main() {
-        // получаем дату в виде миллисекунд
-        var now = Date.now();
-        // разница между текущим временем и временем последнего обновления(изначально lasttime = 0, делим на 1000 чтобы получить секунды)
-        var dt = (now - lastTime) / 1000.0;
-        
-        // обновляем и отображаем сцены
-        update(dt);
-        moveEverything();
-        drawEverything();
-        handleInput();
-        drawSprite();
-        clickCoin();
-        mouseListen();
-        gg();
-        lastTime = now;
-        // постановка в очередь следующего цикла
-        requestAnimationFrame(main);
-    };
-
-    main();
-    
-}
-
 // function init() {
 //     document.getElementById("replay").addEventListener("click", function() {
 //         reset();
@@ -152,11 +235,6 @@ window.onload = function() {
 //     //main();
 // }
 
-function gg() {
-    if(isGameOver == true){
-        gameOver();
-    }
-}
 
 // Обновление состояния объектов игры
 function update(dt) {
@@ -167,31 +245,19 @@ function update(dt) {
 function moveEverything() {
     //main cube condition
     if(cube.Y < canvas.height - 100 - cube.H) {
-        cube.Y = cube.Y + cubeSpeedY;
-        gravity = true;
+        //cube.Y = cube.Y + cubeSpeedY;
+        //gravity = true;
     }
 
     // пробное столкновение
     if(cube.X > 85 - cube.W) {
         // cube.Y = cubeY + cubeSpeedY;
-        cube.X = cube.X - cubeSpeedX;
+        //cube.X = cube.X - cubeSpeedX;
     }
     
-    // startMenu
-    document.getElementById("start-button").onclick = function() {
-        startGame();
+    if(cube.Y < 100) {
+        //gameOver();
     }
-
-    // endMenu
-    document.getElementById("start").onclick = "document.location.reload(true)";
-
-    document.getElementById("replay").onclick = function() {
-        reset();
-    }
-    
-    // if(document.getElementById("start-button").clicked = true) {
-    //     reset();
-    // }
 }
 
 function startGame() {
@@ -217,10 +283,35 @@ function reset() {
     isGameOver = false;
     gameTime = 0;
     inter = false;
+    cube.Y = EARTH_ALTITUDE - cube.H;
+    cube.X = 0;
+}
+
+function gg() {
+    if(isGameOver == true){
+        gameOver();
+    }
+}
+function drawBricks() {
+    for(var r = 0; r < brickRowCount; r++) {
+        for(var c = 0; c < brickColumnCount; c++) {
+            var brickX = (r * (brickWidth+brickPadding)) + brickOffsetLeft;
+            var brickY = (c * (brickHeight+brickPadding)) + brickOffsetTop;
+            bricks[r][c].x = 0;
+            bricks[r][c].y = 0;
+            ctx.beginPath();
+            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+            ctx.fillStyle = "#0095DD";
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
 }
 
 function drawEverything() {
     let drawCount = 0;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
     //!!!black field
     colorRect(0, 0, canvas.width, canvas.height, "black");
 
@@ -300,15 +391,6 @@ function drawEverything() {
     ctx.strokeRect(cube.X, cube.Y, cube.W, cube.H);
     ctx.strokeStyle = scoreTextStyle;
 
-    // if(gravity) {
-    //     ctx.font = "22px consolas";
-    //     startText = "Gravity is now TRUE";
-    //     ctx.fillText(startText, (canvas.width / 2) - 150, 20);
-    // } else {
-    //     ctx.font = "22px consolas";
-    //     startText = "Gravity is now FALSE";
-    //     ctx.fillText(startText, (canvas.width / 2) - 150, 20);
-    // }
 }
 
 // круг с центром в точке (x,y) радиусом r начиная с угла startAngle в направлении по часовой(или против) antiClockWise
