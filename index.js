@@ -50,7 +50,7 @@ var mouseX,
 var brickRowCount = 1;
 var brickColumnCount = 1;
 var brickWidth = 375;
-var brickHeight = 60;
+var brickHeight = 360;
 var brickPadding = 75;
 var brickOffsetTop = 60;
 var brickOffsetLeft = 60;
@@ -84,7 +84,7 @@ window.onload = function() {
         update(dt);
         moveEverything();
         drawEverything();
-        drawBricks();
+        //drawBricks();
         handleInput();
         drawSprite();
         clickCoin();
@@ -123,37 +123,41 @@ function handleInput() {
     if(input.isDown("UP") || input.isDown("w")) {
         if(cube.X > 100 && cube.X < 100 + brickWidth && cube.Y > 200 && cube.Y < 200 + brickHeight) {
             cubePrevious.Y = cube.Y;
-            cube.Y += 5;
+            cube.Y = 200 + brickHeight;
         } else {
             cubePrevious.Y = cube.Y;
             cube.Y -= 5;
         }
-        // } else if(cube.Y != 0) {
-        //     cubePrevious.Y = cube.Y;
-        //     cube.Y -= 5;
-        // }
     }
 
     if(input.isDown("DOWN") || input.isDown("s")) {
-        // if(cube.Y != EARTH_ALTITUDE - cube.H) {
-        //     cubePrevious.Y = cube.Y;
-        //     cube.Y += 5;
-        // }
-        cubePrevious.Y = cube.Y;
-        cube.Y += 5;
+        if(cube.X > 100 && cube.X < 100 + brickWidth && cube.Y > 200 && cube.Y < 200 + brickHeight) {
+            cubePrevious.Y = cube.Y;
+            cube.Y = 200 - cube.H;
+        } else {
+            cubePrevious.Y = cube.Y;
+            cube.Y += 5;
+        }    
     }
 
     if(input.isDown("RIGHT") || input.isDown("d")) {
-        cubePrevious.X = cube.X;
-        cube.X += 5;
+        if(cube.X > 100 && cube.X < 100 + brickWidth && cube.Y > 200 && cube.Y < 200 + brickHeight) {
+            cubePrevious.X = cube.X;
+            cube.X = 100 - cube.W;
+        } else {
+            cubePrevious.X = cube.X;
+            cube.X += 5;
+        }
     }
 
     if(input.isDown("LEFT") || input.isDown("a")) {
-        // if(cube.X != 0) {
-        //     cube.X -= 12;
-        // }
-        cubePrevious.X = cube.X;
-        cube.X -= 5;
+        if(cube.X > 100 && cube.X < 100 + brickWidth && cube.Y > 200 && cube.Y < 200 + brickHeight) {
+            cubePrevious.X = cube.X;
+            cube.X = 100 + brickWidth;
+        } else {
+            cubePrevious.X = cube.X;
+            cube.X -= 5;
+        }
     }  
     checkPlayerBounds();
 
